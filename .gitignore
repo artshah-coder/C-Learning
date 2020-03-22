@@ -1,0 +1,5 @@
+*.exe*
+*.[oa]
+*.c.*
+/Chapter*/*
+!/Chapter*/*/

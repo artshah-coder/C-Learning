@@ -26,18 +26,20 @@ int main (void)
 
 int binsearch (int * arr, int size, int elem)
 {
-	unsigned int start = 0;
-	unsigned int end = size - 1;
-	unsigned int index = (start + end) / 2;
-	while (end >= start)
+	unsigned int start = 0;			// стартовый индекс
+	unsigned int end = size - 1;		// конечный индекс
+	unsigned int index = (start + end) / 2;	// индекс серединного элемента
+	while (end >= start)			// пока конечный индекс больше начального
 	{
-		if (arr[index] == elem)
-			return 1;
-		else if (arr[index] > elem)
+		if (arr[index] == elem)		// сравниваем элемент массива, расположенный по индексу серединного элемента
+						// с искомым элемнтом
+			return 1;		// если равенство -> элемент содержится в массиве, возвращаем 1
+		else if (arr[index] > elem)	// иначе переустанавливаем индексы
 			end = index;
 		else
 			start = index + 1;
 		index = (start + end) / 2;
 	}
-	return 0;
+	return 0;				// если цикл пройден и возврата с кодом 1 не было -> элемента в массиве нет,
+						// вернем 0
 }

@@ -7,6 +7,12 @@ int main (int argc, char ** argv)
 {
 	FILE * fp;
 	char * string = (char *) malloc(sizeof(char));
+	if (NULL == string)	// проверяем, выделилась ли память
+	{
+		fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+		exit(EXIT_FAILURE);
+	}
+	
 	char ch;
 	int i = 0;;
 
@@ -16,7 +22,7 @@ int main (int argc, char ** argv)
 		exit(EXIT_FAILURE);
 	}
 
-	if ((fp = fopen(*(argv + 2), "r")) == NULL)
+	if ((fp = fopen(*(argv + 2), "r")) == NULL)	// открываем файловый поток на чтение
 	{
 		fprintf(stderr, "Ошибка чтения файла %s.\n", *(argv + 2));
 		exit(EXIT_FAILURE);
@@ -29,6 +35,12 @@ int main (int argc, char ** argv)
 		while (ch != '\n' && ch != EOF)
 		{
 			string = (char *) realloc(string, sizeof(char)*(++i + 1));
+			if (NULL == string)	// проверяем, выделилась ли память
+			{
+				fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+				exit(EXIT_FAILURE);
+			}
+			
 			*(string + i - 1) = ch;
 			ch = getc(fp);
 		}
@@ -38,9 +50,9 @@ int main (int argc, char ** argv)
 			puts(string);
 	}
 
-	if (fclose(fp) != 0)
+	if (fclose(fp) != 0)	// закрываем поток с проверкой
 		fprintf(stderr, "Ошибка при закрытии файла %s.\n", *(argv + 2));
-	free(string);
+	free(string);		// освобождаем выделенную память
 	puts("Программа завершена!");
 
 	return 0;

@@ -1,13 +1,14 @@
 /* invert4.c -- использование операций с битами для отображения двоичного представления чисел */
 #include<stdio.h>
 #include<limits.h>
+
+int invert_end (int, int);
 char * itobs (int, char *);
 void show_bstr (const char *);
-int invert_end (int num, int bits);
 
 int main (void)
 {
-	char bin_str [CHAR_BIT*sizeof(int) + 1];
+	char bin_str[CHAR_BIT*sizeof(int) + 1];
 	int number;
 	puts("Вводите целые числа и просматривайте их двоичные представления.");
 	puts("Нечисловой ввод завершает программу.");
@@ -17,7 +18,8 @@ int main (void)
 		printf("%d представляется как\n", number);
 		show_bstr(bin_str);
 		putchar('\n');
-		number = invert_end(number, 4);
+		number = invert_end(4, number);
+		printf("%d\n", number);
 		printf("Инвертирование последних 4 битов дает\n");
 		show_bstr(itobs(number, bin_str));
 		putchar('\n');
@@ -27,38 +29,36 @@ int main (void)
 	return 0;
 }
 
-char * itobs (int n, char * ps)
+int invert_end (int bits, int number)
 {
-	int i;
-	const static int size = CHAR_BIT*sizeof(int);
-	for (i = size - 1; i >= 0; i--, n >>= 1)
-		ps[i] = (0x1 & n) + '0';
-	ps[size] = '\0';
-	return ps;
+	int mask = 1;
+	
+	while (--bits > 0)
+	{
+		mask <<= 1;
+		mask |= 0x1;
+	}
+	
+	return number ^ mask;
 }
 
-/* отображение двоичной строки блоками по 4 */
+char * itobs (int n, char * str)
+{
+	static const int size = CHAR_BIT*sizeof(int);
+	for (int i = size - 1; i >= 0; i--, n >>= 1)
+		str[i] = (0x1 & n ) + '0';
+	str[size] = '\0';
+	
+	return str;
+}
+
 void show_bstr (const char * str)
 {
 	int i = 0;
-	while (str[i])	/* пока не будет получен нулевой символ */
+	while (str[i])
 	{
 		putchar(str[i]);
-		if (++i % 4 == 0 && str[i])
+		if (++i % 4 == 0)
 			putchar(' ');
 	}
 }
-
-int invert_end (int num, int bits)
-{
-	int mask = 0;
-	int bitval = 1;
-
-	while (bits-- > 0)
-	{
-		mask |= bitval;
-		bitval <<= 1;
-	}
-	return num ^ mask;
-}
-

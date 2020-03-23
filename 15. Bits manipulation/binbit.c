@@ -1,15 +1,15 @@
-/* binbit.c -- использование операций с битами длятображения двоичного представления чисел */
+/* binbit.c -- использование операций с битами для отображения двоичного представления чисел */
 #include<stdio.h>
-#include<limits.h> // для CHAR_BIT ство битов на символ
-
+#include<limits.h>
 char * itobs (int, char *);
 void show_bstr (const char *);
 
 int main (void)
 {
-	char bin_str [CHAR_BIT*sizeof(int) + 1];
+	char bin_str[CHAR_BIT*sizeof(int) + 1];
 	int number;
-	printf("Вводите целые числа и просматривайте их двоичные представления.\n");
+
+	puts("Вводите целые числа и просматривайте их двоичные представления.");
 	puts("Нечисловой ввод завершает программу.");
 	while (scanf("%d", &number) == 1)
 	{
@@ -23,26 +23,22 @@ int main (void)
 	return 0;
 }
 
-char * itobs (int n, char * ps)
+char * itobs (int n, char * str)
 {
-	int i;
-	const static int size = CHAR_BIT*sizeof(int);
-	for (i = size - 1; i >= 0; i--, n >>= 1)
-		ps[i] = (0x1 & n) + '0';	// предполагается кодировка ASCII или похожая
-	ps[size] = '\0';
-	return ps;
+	static const int size = CHAR_BIT*sizeof(int);
+	for (int i = size - 1; i >= 0; i--, n >>= 1)
+		str[i] = (0x1 & n) + '0';
+	str[size] = '\0';
+	return str;
 }
 
-/* отображение строки блоками по 4 */
 void show_bstr (const char * str)
 {
 	int i = 0;
-
-	while (str[i])	/* пока не будет получен нулевой символ */
+	while (str[i])
 	{
 		putchar(str[i]);
-		if (++i % 4 == 0 && str[i])
+		if (++i % 4 == 0)
 			putchar(' ');
 	}
 }
-

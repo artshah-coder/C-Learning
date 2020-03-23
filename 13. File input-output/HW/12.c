@@ -87,6 +87,11 @@ int main(void)
 		fprintf(output, "%s\n", *(strings + i));
 		puts(*(strings + i));
 	}
+	
+	if (fclose(input))		// закрываем входной файл, с проверкой
+		fprintf(stderr, "Ошибка при закрытии входного файла.\n");
+	if (fclose(output))		// закрываем выходной файл, с проверкой
+		fprintf(stderr, "Ошибка при закрытии выходного файла.\n");
 
 	puts("\nПрограмма завершена!");
 

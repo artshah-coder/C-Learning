@@ -92,6 +92,11 @@ int main(void)
 		fprintf(output, "%s\n", *(strings + i));
 		puts(*(strings + i));
 	}
+	
+	if (fclose(input))
+		fprintf(stderr, "Ошибка при закрытии входного потока.\n");
+	if (fclose(output))
+		fprintf(stderr, "Ошибка при закрытии выходного потока.\n");
 
 	puts("\nПрограмма завершена!");
 

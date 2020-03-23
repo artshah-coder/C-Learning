@@ -11,13 +11,30 @@ int main (void)
 	int i = 0;	// переменная для организации динамического выделения памяти для хранения имен файлов
 	char ch;	// переменная для хранения симолов в процессе чтения файлов
 	char * name_src = (char *) malloc (sizeof(char)); // имя файла-источника
+	if (NULL == name_src)	// проверяем, выделилась ли память
+	{
+		fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+		exit(EXIT_FAILURE);
+	}
+	
 	char * name_dst = (char *) malloc (sizeof(char)); // имя файла-назначения
+	if (NULL == name_dst)	// проверяем, выделилась ли память
+	{
+		fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+		exit(EXIT_FAILURE);
+	}
+	
 	printf("Программа копирует исходный файл в выходной файл, переводя каждый символ в верхний регистр.\n"
 			"Введите имя файла-источника и нажмите Enter:\n");
 	
 	while ((ch = getchar()) != '\n')	// считывание имени файла-источника и формирование строки с этим именем
 	{
 		name_src = (char *) realloc (name_src, ++i + 1);
+		if (NULL == name_src)
+		{
+			fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+			exit(EXIT_FAILURE);
+		}
 		*(name_src + i - 1) = ch;
 	}
 	*(name_src + i) = '\0';
@@ -35,6 +52,11 @@ int main (void)
 	while ((ch = getchar()) != '\n')	// считывание файла назначения и формирование строки с именем
 	{
 		name_dst = (char *) realloc(name_dst, ++i + 1);
+		if (NULL == name_dst)
+		{
+			fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+			exit(EXIT_FAILURE);
+		}
 		*(name_dst + i - 1) = ch;
 	}
 	*(name_dst + i) = '\0';

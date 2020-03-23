@@ -6,7 +6,7 @@
 #include"list.h"	/* определение List, Item	*/
 
 // прототипы локальных функций
-void showmovies(Item item);
+void showmovies(Item item);		// печать на экране элемента
 char * s_gets(char * st, int n);	// альтернатива fgets(), заменяющая '\n' в конце строки на '\0'
 
 int main (void)

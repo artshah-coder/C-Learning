@@ -12,6 +12,11 @@ void input (char *);		// функция, читающая посимвольно
 int main (void)
 {
 	char * month = (char *) malloc (sizeof(char));	// строка под месяц выделяется динамически в куче
+	if (NULL == month)
+	{
+		fprintf(stderr, "Ошибка выделения памяти.\n");
+		exit(EXIT_FAILURE);
+	}
 	printf("Программа вычисляет количество дней от Нового Года до конца указанного месяца. Названия месяцев вводить по-английски.\n");
 	printf("Введите название месяца и нажмите Enter:\n");
 	input(month);
@@ -48,6 +53,11 @@ void input (char * st)
 	while ((ch = getchar()) != '\n')
 	{
 		st = (char *) realloc(st, sizeof(char)*(++i + 1));
+		if (NULL == st)
+		{
+			fprintf(stderr, "Ошибка выделения памяти.\n");
+			exit(EXIT_FAILURE);
+		}
 		*(st + i - 1) = ch;
 	}
 	*(st + i) = '\0';

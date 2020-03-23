@@ -4,7 +4,7 @@
 #include<string.h>
 #include"stack.h"
 
-/* прототип локаьной функции */
+/* прототип локальной функции */
 char * s_gets (char * st, int n);	// модификация fgets() - вместо '\n' в конце строки '\0'
 
 int main (void)

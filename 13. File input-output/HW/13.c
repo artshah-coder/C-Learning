@@ -11,13 +11,13 @@ int main(void)
 	char strings [STRINGS] [COLS + 1];
 	int i, j;
 
-	if ((input = fopen("input", "w+")) == NULL)
+	if ((input = fopen("input", "w+")) == NULL)	// открываем входной поток, с проверкой
 	{
 		fprintf(stderr, "Ошибка при открытии входного файла.\n");
 		exit(EXIT_FAILURE);
 	}
 
-	if ((output = fopen("output", "w")) == NULL)
+	if ((output = fopen("output", "w")) == NULL)	// открываем выходной поток, с проверкой
 	{
 		fprintf(stderr, "Ошибка при открытии выходного файла.\n");
 		exit(EXIT_FAILURE);
@@ -86,6 +86,11 @@ int main(void)
 		fprintf(output, "%s\n", *(strings + i));
 		puts(*(strings + i));
 	}
+	
+	if (fclose(input))	// закрываем входной файл, с проверкой
+		fprintf(stderr, "Ошибка при закрытии входного файла.\n");
+	if (fclose(output))	// закрываем выходной файл, с проверкой
+		fprintf(stderr, "Ошибка при закрытии выходного файла.\n");
 
 	puts("\nПрограмма завершена!");
 

@@ -31,6 +31,13 @@ int main (int argc, char * argv[])
 
 	while (fread (&ch, sizeof(char), 1, src) > 0)
 		fwrite(&ch, sizeof(char), 1, dst);
+	
+	// закрытие файлов
+	if (fclose(src))
+		fprintf(stderr, "Ошибка при закрытии файла %s.\n", *(argv + 1));
+	if (fclose(dst))
+		fprintf(stderr, "Ошибка при закрытии файла %s.\n", *(argv + 2));
+	
 	puts("Программа завершена.");
 
 	return 0;

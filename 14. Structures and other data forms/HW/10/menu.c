@@ -8,6 +8,11 @@ int get_str (char * str)
 	while ((ch = getchar()) != '\n')
 	{
 		str = (char *) realloc(str, sizeof(char)*(++i));
+		if (NULL == str)
+		{
+			fprintf(stderr, "Ошибка при выделении памяти.\n");
+			exit(EXIT_FAILURE);
+		}
 		*(str + i - 1) = ch;
 	}
 	*(str + i) = '\0';

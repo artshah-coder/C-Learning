@@ -8,13 +8,30 @@ int main(void)
 	long i = 0;	// переменная для организации произвольного доступа в файл и выделения памяти для хранения строк
 	char ch;	// переменная для посимвольного чтения файла и stdin
 	char * name = (char *) malloc(sizeof(char));	// имя файла для чтения, память выделяется динамически
+	if (NULL == name)	// проверяем, выделилась ли память
+	{
+		fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+		exit(EXIT_FAILURE);
+	}
+	
 	char * string = (char *) malloc(sizeof(char));	// строка из файла, память выделяется динамически
+	if (NULL == string)	// проверяем, выделилась ли память
+	{
+		fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+		exit(EXIT_FAILURE);
+	}
 	
 	printf("Введите имя файла и нажмите Enter:\n");
 	
 	while ((ch = getchar()) != '\n' && ch != EOF)	// читаем имя файла, динамически выделяем память под него
 	{
 		name = (char *) realloc(name, sizeof(char)*(++i + 1));
+		if(NULL == name)	// проверяем, выделилась ли память
+		{
+			fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+			exit(EXIT_FAILURE);
+		}
+		
 		*(name + i - 1) = ch;
 	}
 	*(name + i) = '\0';
@@ -39,6 +56,12 @@ int main(void)
 			while ((ch = getc(fp)) != '\n' && ch != EOF)
 			{
 				string = (char *) realloc(string, sizeof(char)*(++i + 1));
+				if (NULL == string)	// проверяем, выделилась ли память
+				{
+					fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+					exit(EXIT_FAILURE);
+				}
+				
 				*(string + i - 1) = ch;
 			}
 			*(string + i) = '\0';

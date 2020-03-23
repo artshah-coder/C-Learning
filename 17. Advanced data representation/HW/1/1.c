@@ -15,11 +15,11 @@ char * s_gets (char * st, int n);
 
 int main (void)
 {
-	struct film * head = NULL;
-	struct film * tail = NULL;
-	struct film * current = NULL;
-	struct film * prev = NULL;
-	char input [TSIZE];
+	struct film * head = NULL;	// указывает на первый элемент в списке (заголовок) 
+	struct film * tail = NULL;	// указывает на последний элемент в списке (хвост)
+	struct film * current = NULL;	// указывает на текущий элемент в списке
+	struct film * prev = NULL;	// указывает на предыдущий элемент в списке
+	char input [TSIZE];		// массив для названия фильма, введенного пользователем
 
 	/* Сбор и сохранение информации */
 	puts("Введите название первого фильма:");

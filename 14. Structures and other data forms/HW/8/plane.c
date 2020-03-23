@@ -49,7 +49,10 @@ void ls_booked (PLACE * p, int n)
 				tmp[j] = temp;
 			}
 	for (int i = 0; i < count; i++)
+	{
 		printf("%d %s %s.\n", tmp[i].num, tmp[i].surn, tmp[i].name);
+		free(tmp[i]);
+	}
 }
 
 void book_place (PLACE * p, int n)

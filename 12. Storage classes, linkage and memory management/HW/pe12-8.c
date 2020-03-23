@@ -2,14 +2,15 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-int * make_array (int elem, int value);
-void show_array (const int ar[], int n);
+// прототипы локальных функций
+int * make_array (int elem, int value);		// создание и инициализация массива
+void show_array (const int ar[], int n);	// отображение массива на экране
 
 int main (void)
 {
-	int * pa;
-	int size;
-	int value;
+	int * pa;	// указатель на динамический массив
+	int size;	// переменная для хранения размера массива, вводимого пользователем
+	int value;	// значение для инициализации массива
 	printf("Введите количество элементов: ");
 	while (scanf("%d", &size) == 1 && size > 0)
 	{

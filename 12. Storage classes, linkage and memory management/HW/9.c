@@ -24,6 +24,13 @@ int main (void)
 		continue;
 
 	array = (char **) malloc (words*sizeof(char *)); // выделяем память в куче для хранения массива указателей на char
+	
+	if (NULL == array)	// проверяем, выделилась ли память
+	{
+		fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+		exit(EXIT_FAILURE);
+	}
+	
 	printf("Теперь введите %d слов латиницей:\n", words);
 	while(count != words)
 	{
@@ -31,12 +38,26 @@ int main (void)
 				buf = cur;
 		count++;
 		word = (char *) malloc (sizeof(char) + 1);
+		
+		if (NULL == word)	// проверяем, выделилась ли память
+		{
+			fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+			exit(EXIT_FAILURE);
+		}
+		
 		*word = cur;
 		*(word + 1) = '\0';
 		while (!isspace(cur = getchar()))
 		{
 			int strl = strlen(word);
 			word = (char *) realloc (word, strl + 1);
+			
+			if (NULL == word)	// проверяем, выделилась ли память
+			{
+				fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+				exit(EXIT_FAILURE);
+			}
+			
 			*(word + strl) = cur;
 			*(word + strl + 1) = '\0';
 		}

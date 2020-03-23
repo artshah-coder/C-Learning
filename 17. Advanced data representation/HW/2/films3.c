@@ -4,8 +4,10 @@
 #include<string.h>
 #include<stdlib.h>	/* прототип для exit()		*/
 #include"list.h"	/* определение List, Item	*/
-void showmovies(Item item);
-char * s_gets(char * st, int n);
+
+// прототипы локальных функций
+void showmovies(Item item);		// печатает элемент Item на экран
+char * s_gets(char * st, int n);	// аналог fgets(), замещающий '\n' в конце строки на '\0'
 
 int main (void)
 {

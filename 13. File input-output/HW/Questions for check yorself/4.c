@@ -1,14 +1,16 @@
+// программа читает аргумент командной строки - имя файла, в котором содержатся вещественные числа,
+// и вычисляет их среднее арифметическое; если аргументов командной строки нет, читается stdin
 #include<stdio.h>
 #include<stdlib.h>
 
 int main (int argc, char * argv[])
 {
-	size_t bytes;
-	double value;
-	double total = 0.0;
-	double med;
-	int count = 0;
-	FILE * fp;
+	size_t bytes;		// переменная для побайтового чтения файла
+	double value;		// считанное значение
+	double total = 0.0;	// сумма значений
+	double med;		// переменная для хранения среднего арифметического значений
+	int count = 0;		// переменная для хранения количества чисел
+	FILE * fp;		// переменная файлового потока
 
 	switch (argc)
 	{
@@ -29,12 +31,14 @@ int main (int argc, char * argv[])
 				printf("Допустимые данные отсутствуют.\n");
 			break;
 		case 2:
-			if ((fp = fopen(*(argv + 1), "rb")) == NULL)
+			if ((fp = fopen(*(argv + 1), "rb")) == NULL)	// открываем файловый поток
 			{
 				fprintf(stderr, "Не удалось открыть файл %s на чтение.\n", *(argv + 1));
 				exit(EXIT_FAILURE);
 			}
-			while ((bytes = fread(&value, sizeof (double), 1, fp)) > 0)
+			
+			while ((bytes = fread(&value, sizeof (double), 1, fp)) > 0)	// если файл успешно открыт,
+			// побайтово читаем из него вещественные числа
 			{
 				total += value;
 				count++;
@@ -46,6 +50,9 @@ int main (int argc, char * argv[])
 			}
 			else
 				printf("Допустимые данные отстутствуют.\n");
+			
+			if (!fclose(fp))	// закрытие потока
+				fpritnf(stderr, "Ошибка при закрытии файла %s.\n", *(argv + 1));
 			break;
 		default:
 			printf("Использование: %s (для чтения stdin) или %s имя_файла (для чтения файла).\n", *argv, *argv);

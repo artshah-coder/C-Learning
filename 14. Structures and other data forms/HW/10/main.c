@@ -5,6 +5,12 @@ int main (void)
 {
 	void (*fp [CT]) (char * s);
 	char * str = (char *) malloc(sizeof(char));
+	if (NULL == str)
+	{
+		fprintf(stderr, "Ошибка при выделении памяти.\n");
+		exit(EXIT_FAILURE);
+	}
+	
 	char ch;
 	printf("Программа-меню. Выполняет преобразование над строкой, введенной пользователем.\n");
 	printf("Сначала введите строку, затем нажмите Enter\n");

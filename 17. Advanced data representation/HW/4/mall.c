@@ -1,5 +1,6 @@
 // mall.c -- использует интерфейс Queue
 // компилировать вместе с queue.c
+// моделирование консультационного киоска с двумя окошками (2 очереди)
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
@@ -31,7 +32,7 @@ int main (void)
 
 	InitializeQueue(&line1);
 	InitializeQueue(&line2);
-	srand((unsigned int) time(NULL));
+	srand((unsigned int) time(NULL));	// задаем начало последовательности для генерации псевдослучайных чисел
 	puts("Моделирование киоска с двумя окошками (двумя очередями).");
 	puts("Задайте количество часов моделирования:");
 	scanf("%d", &hours);
@@ -42,38 +43,42 @@ int main (void)
 	cyclelimit = hours*MIN_PER_HR;
 	min_per_cust = MIN_PER_HR / perhour;
 
-	for (cycle = 0; cycle < cyclelimit; cycle++)
+	for (cycle = 0; cycle < cyclelimit; cycle++)		// отсчет времени - поминутный: от 0 до cyclelimit
 	{
-		if (newcustomer(min_per_cust))
+		if (newcustomer(min_per_cust))			// если появился новый клиент
 		{
-			if (QueueIsFull(&line1))
-				if (QueueIsFull(&line2))
-					turnaways++;
+			if (QueueIsFull(&line1))		// если полна первая очередь
+				if (QueueIsFull(&line2))	// проверяем, полна ли вторая
+					turnaways++;		// если полна - инкрементируем счетчик отказов
 				else
 				{
-					temp = customertime(cycle);
-					EnQueue(temp, &line2);
-					customers++;
+					temp = customertime(cycle);	// если во второй очереди есть место, задаем параметры
+									// клиента (время прибытия и время консультации)
+					EnQueue(temp, &line2);		// добавляем клиента во вторую очередь
+					customers++;			// инкрементируем число клиентов
 				}
-			else if (QueueIsFull(&line2))
+			else if (QueueIsFull(&line2))			// если в очереди 1 есть место, а в очереди 2 нет
 			{
-				temp = customertime(cycle);
-				EnQueue(temp, &line1);
-				customers++;
+				temp = customertime(cycle);		// задаем параметры клиента в функции customertime
+				EnQueue(temp, &line1);			// добавляем клиента в первую очередь
+				customers++;				// инкрементируем число клиентов
 			}
-			else if (QueueItemCount(&line1) < QueueItemCount(&line2))
+			else if (QueueItemCount(&line1) < QueueItemCount(&line2))	// в обоих очередях есть место
+			// логично, что клиент встанет в очередь с меньшим колиеством людей
+			// если это очередь 1
 			{
-				temp = customertime(cycle);
-				EnQueue(temp, &line1);
-				customers++;
+				temp = customertime(cycle);	// задаем параметры клиента
+				EnQueue(temp, &line1);		// добавляем его в очередь 1
+				customers++;			// инкрементируем число клиентов
 			}
 			else if (QueueItemCount(&line1) > QueueItemCount(&line2))
+			// если очередь с меньшим числом народу - это очередь 2
 			{
-				temp = customertime(cycle);
-				EnQueue(temp, &line2);
-				customers++;
+				temp = customertime(cycle);	// задаем параметры клиента
+				EnQueue(temp, &line2);		// добавляем его в очередь 2
+				customers++;			// инкрементируем число клиентов
 			}
-			else
+			else	// число людей в очередях одинаково, выбор клиента, в какую очередь встать случаен
 			{
 				switch (rand() % 2 + 1)
 				{
@@ -91,28 +96,29 @@ int main (void)
 			}
 		}
 		
-		if (wait_time1 <= 0 && !QueueIsEmpty(&line1))
+		if (wait_time1 <= 0 && !QueueIsEmpty(&line1))	// если первый консультант свободен и в очереди 1 есть люди
 		{
-			DeQueue(&temp, &line1);
-			wait_time1 = temp.processtime;
-			served1++;
-			line_wait1 += (cycle - temp.arrive); 
+			DeQueue(&temp, &line1);			// помещаем параметры первого в очереди 1 пользователя в temp
+			wait_time1 = temp.processtime;		// задаем время, которое консультант 1 будет занят
+			served1++;				// инкрементируем число обслуженных в 1-й очереди клиентов
+			line_wait1 += (cycle - temp.arrive); 	// увеличиваем общее время ожидания клиентов в 1-й очереди,
+								// добавляя к нему время ожидания текущего клиента
 		}
-		else if (wait_time1 > 0)
-			wait_time1--;
+		else if (wait_time1 > 0)	// если консультант 1 занят
+			wait_time1--;		// декрементируем время его занятости
 
-		if (wait_time2 <= 0 && !QueueIsEmpty(&line2))
+		if (wait_time2 <= 0 && !QueueIsEmpty(&line2))	// если второй консультант свободен и в очереди 2 есть люди
 		{
-			DeQueue(&temp, &line2);
-			wait_time2 = temp.processtime;
-			served2++;
-			line_wait2 += (cycle - temp.arrive);
+			DeQueue(&temp, &line2);			// помещаем параметры первого в очереди 1 пользователя в temp
+			wait_time2 = temp.processtime;		// задаем время, которое консультант 2 будет занят
+			served2++;				// инкрементируем число обслуженных во 2-й очереди клиентов
+			line_wait2 += (cycle - temp.arrive);	// увеличиваем общее время ожидания клиентов во 2-й очереди
 		}
-		else if (wait_time2 > 0)
-			wait_time2--;
+		else if (wait_time2 > 0)	// если консультант 2 занят
+			wait_time2--;		// декрементируем время его занятости
 
-		sum_line1 += QueueItemCount(&line1);
-		sum_line2 += QueueItemCount(&line2);
+		sum_line1 += QueueItemCount(&line1);	// увеличиваем общее число людей в очереди 1
+		sum_line2 += QueueItemCount(&line2);	// увеличиваем общее число людей в очереди 2
 
 	}
 
@@ -132,8 +138,8 @@ int main (void)
 	}
 	else
 		puts("Клиенты отсутствуют!");
-	EmptyTheQueue(&line1);
-	EmptyTheQueue(&line2);
+	EmptyTheQueue(&line1);	// освобождаем память, занятую под очередь 1
+	EmptyTheQueue(&line2);	// освобождаем память, занятую под очередь 2
 	puts("Программа завершена!");
 
 	return 0;

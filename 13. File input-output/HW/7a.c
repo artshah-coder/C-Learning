@@ -7,6 +7,12 @@ int main (int argc, char ** argv)
 	char ch1, ch2;	// переменные для посимвольного чтения файлов
 	FILE * file1, * file2;
 	char * str = (char *) malloc(sizeof(char));
+	if (NULL == str)
+	{
+		fprintf(stderr, "Ошибка при выделении памяти.\n");
+		exit(EXIT_FAILURE);
+	}
+	
 	int i;
 
 	if (argc != 3)
@@ -27,6 +33,12 @@ int main (int argc, char ** argv)
 		while (ch1 != '\n' && ch1 != EOF)
 		{
 			str = (char *) realloc(str, sizeof(char)*(++i + 1));
+			if (NULL == str)
+			{
+				fprintf(stderr, "Ошибка при выделении памяти.\n");
+				exit(EXIT_FAILURE);
+			}
+			
 			*(str + i - 1) = ch1;
 			ch1 = getc(file1);
 			if (ch1 == '\n' || ch1 == EOF)

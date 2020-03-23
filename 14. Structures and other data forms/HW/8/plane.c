@@ -22,10 +22,22 @@ void ls_booked (PLACE * p, int n)
 	int count = 0;
 	PLACE temp;
 	PLACE * tmp = (PLACE *) malloc (sizeof(PLACE));
+	if (NULL == tmp)
+	{
+		fprintf(stderr, "Ошибка при выделении памяти.\n");
+		exit(EXIT_FAILURE);
+	}
+	
 	for (int i = 0; i < n; i++)
 		if (!p[i].free)
 		{
 			tmp = (PLACE *) realloc (tmp, sizeof(PLACE)*(++count));
+			if (NULL == tmp)
+			{
+				fprintf(stderr, "Ошибка при выделении памяти.\n");
+				exit(EXIT_FAILURE);
+			}
+			
 			tmp[count - 1] = p[i];
 		}
 	for (int i = 0; i < count - 1; i++)

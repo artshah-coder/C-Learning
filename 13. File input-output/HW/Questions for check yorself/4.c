@@ -51,7 +51,7 @@ int main (int argc, char * argv[])
 			else
 				printf("Допустимые данные отстутствуют.\n");
 			
-			if (!fclose(fp))	// закрытие потока
+			if (fclose(fp))	// закрытие потока
 				fpritnf(stderr, "Ошибка при закрытии файла %s.\n", *(argv + 1));
 			break;
 		default:

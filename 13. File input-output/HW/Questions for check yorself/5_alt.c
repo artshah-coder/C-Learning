@@ -4,7 +4,8 @@
 #include<string.h>
 #define BUFER 257
 
-int find_ch (char, char *);
+//прототип локальной функции
+int find_ch (char, char *);	// ищет символ в строке, возвращает 1 при успехе, 0 - в противном случае
 
 int main (int argc, char ** argv)
 {
@@ -29,6 +30,8 @@ int main (int argc, char ** argv)
 	while (fgets(line, BUFER, fp) != NULL)
 		if (find_ch(**(argv + 1), line))
 			fputs(line, stdout);
+	if (fclose(fp))
+		fprintf(stderr, "Ошибка при закрытии файла %s.\n", *(argv + 2));
 	puts("Программа завершена.");
 
 	return 0;

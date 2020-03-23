@@ -81,7 +81,7 @@ int main (void)
 				}
 				if (i > 0)	// если ввод был произведен
 					*(input + i) = '\0'; // формируем С-строку путем добавления 0-символа в конец
-				printf("Сово %s содержится в файле file ", input);
+				printf("Слово %s содержится в файле file ", input);
 				if (InTree(input, &words))	// проверяем, содержится ли введенное слово в дереве
 					printf("%d раз.\n", InTree(input, &words));
 				else

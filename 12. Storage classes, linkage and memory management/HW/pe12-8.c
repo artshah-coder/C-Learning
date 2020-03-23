@@ -31,8 +31,9 @@ int main (void)
 int * make_array (int elem, int value)
 {
 	int * ret_value = (int *) malloc(elem*sizeof(int));
-	for (int i = 0; i < elem; i++)
-		*(ret_value + i) = value;
+	if (NULL != ret_value)
+		for (int i = 0; i < elem; i++)
+			*(ret_value + i) = value;
 	return ret_value;
 }
 

@@ -7,7 +7,18 @@
 int main(void)
 {
 	char * input = (char *) malloc(sizeof(char));	// указатели на строки в куче, хранящие имена входного и выходного файлов
+	if (NULL == input)	// проверяем, выделилась ли память
+	{
+		fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+		exit(EXIT_FAILURE);
+	}
+	
 	char * output = (char *) malloc(sizeof(char));
+	if (NULL == output)	// проверяем, выделилась ли память
+	{
+		fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+		exit(EXIT_FAILURE);
+	}
 	char ch; // переменная для хранения считанных символов
 	FILE * in, * out; // входной и выходной файл
 	int i = 0;
@@ -17,11 +28,22 @@ int main(void)
 	while ((ch = getchar()) != '\n') // чтение имени входного файла и сохранение его в куче
 	{
 		input = (char *) realloc(input, sizeof(char)*(++i + 1));
+		if (NULL == input)	// проверяем, выделилась ли память
+		{
+			fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+			exit(EXIT_FAILURE);
+		}
 		*(input + i - 1) = ch;
 	}
 	*(input + i) = '\0';
 	
 	output = (char *) realloc(output, strlen(input) + sizeof(char)*5); // выделение памяти под хранение имени выходного файла
+	if (NULL == output)	// проверяем, выделилась ли память
+	{
+		fprintf(stderr, "Ошибка при динамическом выделении памяти.\n");
+		exit(EXIT_FAILURE);
+	}
+	
 	strcpy(output, input);
 	strcat(output, ".red");
 

@@ -16,9 +16,6 @@ static void BuildLists (const char * str, List * open, List * close);
 /* расставлены валидно, false - в противном случае		*/
 static bool IsValid (List * open, List * close);
 
-/* функция вывода на экран элемента Item			*/
-static void Print (Item item);
-
 /* функция чтения строки с клавиатуры */
 char * s_gets (void);
 
@@ -152,11 +149,6 @@ static bool IsValid (List * open, List * close)
 
 	return ListIsEmpty(close);	// если в итоге список закрывающих скобок пуст, значит, скобки расставлены верно
 					// в противном случае - неверно
-}
-
-static void Print (Item item)
-{
-	printf("Скобка: %c\tПозиция: %u\n", item.bracket, item.position);
 }
 
 char * s_gets (void)

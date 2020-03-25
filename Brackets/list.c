@@ -101,17 +101,6 @@ bool DeleteItem (Item item, List * plist)
 	return false;	// возвращаем false, если просмотрен весь список и так и не найде искомый для удаления элемент
 }
 
-/* посещает каждый узел и выполняет функцию, указанную pfun	*/
-void Traverse (const List * plist, void (* pfun) (Item item))
-{
-	Node * pnode = plist->first;	// установка в начало списка
-	while (pnode != NULL)
-	{
-		(*pfun)(pnode->item);
-		pnode = pnode->next;
-	}
-}
-
 /* освобождает память, выделенную функцией malloc() под список	*/
 /* устанавливает список в пустое состояние			*/
 void EmptyTheList (List * plist)
